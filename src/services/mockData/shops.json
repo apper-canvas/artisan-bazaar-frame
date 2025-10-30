@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "sellerId": 2,
+    "name": "Emma's Pottery Studio",
+    "slug": "emmas-pottery-studio",
+    "description": "Handcrafted ceramics and pottery made with love. Each piece is unique and created using traditional techniques passed down through generations. I specialize in functional pottery that brings beauty to everyday life.",
+    "bannerImage": "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=1920",
+    "logoImage": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400",
+    "socialLinks": {
+      "instagram": "emmas_pottery",
+      "facebook": "emmaspotterystudio",
+      "twitter": ""
+    },
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "sellerId": 3,
+    "name": "Mitchell Woodworks",
+    "slug": "mitchell-woodworks",
+    "description": "Custom furniture and woodcraft designed to last generations. I work with reclaimed and sustainably sourced hardwoods to create pieces that tell a story. From cutting boards to dining tables, every item is made to order.",
+    "bannerImage": "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=1920",
+    "logoImage": "https://images.unsplash.com/photo-1551063878-1adcd1d96994?w=400",
+    "socialLinks": {
+      "instagram": "mitchell_woodworks",
+      "facebook": "mitchellwoodworks",
+      "twitter": "mitchellwood"
+    },
+    "createdAt": "2024-01-20T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "sellerId": 4,
+    "name": "Sarah's Textile Art",
+    "slug": "sarahs-textile-art",
+    "description": "Hand-woven textiles, macramé, and fiber art that add warmth to any space. I use natural fibers and eco-friendly dyes to create wall hangings, throws, and decorative pieces that are both sustainable and beautiful.",
+    "bannerImage": "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=1920",
+    "logoImage": "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?w=400",
+    "socialLinks": {
+      "instagram": "sarahs_textile_art",
+      "facebook": "",
+      "twitter": ""
+    },
+    "createdAt": "2024-02-01T09:15:00Z"
+  }
+]

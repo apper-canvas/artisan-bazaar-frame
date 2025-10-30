@@ -1,0 +1,132 @@
+[
+  {
+    "Id": 1,
+    "customerId": 5,
+    "sellerId": 2,
+    "items": [
+      {
+        "productId": 1,
+        "productTitle": "Handmade Ceramic Coffee Mug",
+        "variantDetails": { "Color": "Ocean Blue" },
+        "quantity": 2,
+        "price": 28
+      }
+    ],
+    "subtotal": 56,
+    "platformFee": 5.6,
+    "total": 56,
+    "status": "completed",
+    "shippingAddress": {
+      "street": "123 Main St",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97201",
+      "country": "USA"
+    },
+    "customizationFiles": [],
+    "specialInstructions": "",
+    "trackingNumber": "1Z999AA10123456784",
+    "stripePaymentId": "pi_1234567890",
+    "createdAt": "2024-02-12T14:30:00Z",
+    "shippedAt": "2024-02-13T10:15:00Z",
+    "completedAt": "2024-02-16T16:45:00Z"
+  },
+  {
+    "Id": 2,
+    "customerId": 6,
+    "sellerId": 3,
+    "items": [
+      {
+        "productId": 3,
+        "productTitle": "Custom Walnut Cutting Board",
+        "variantDetails": { "Size": "Medium (16x10)" },
+        "quantity": 1,
+        "price": 95
+      }
+    ],
+    "subtotal": 95,
+    "platformFee": 9.5,
+    "total": 95,
+    "status": "shipped",
+    "shippingAddress": {
+      "street": "456 Oak Avenue",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98101",
+      "country": "USA"
+    },
+    "customizationFiles": [
+      "https://example.com/uploads/customer-logo-001.png"
+    ],
+    "specialInstructions": "Please engrave 'The Johnson Family' on the bottom right corner",
+    "trackingNumber": "1Z999AA10123456785",
+    "stripePaymentId": "pi_1234567891",
+    "createdAt": "2024-02-14T11:20:00Z",
+    "shippedAt": "2024-02-18T09:30:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 3,
+    "customerId": 5,
+    "sellerId": 4,
+    "items": [
+      {
+        "productId": 5,
+        "productTitle": "Macramé Wall Hanging",
+        "variantDetails": { "Size": "Large (36in)" },
+        "quantity": 1,
+        "price": 98
+      }
+    ],
+    "subtotal": 98,
+    "platformFee": 9.8,
+    "total": 98,
+    "status": "processing",
+    "shippingAddress": {
+      "street": "789 Pine Road",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "78701",
+      "country": "USA"
+    },
+    "customizationFiles": [],
+    "specialInstructions": "",
+    "trackingNumber": "",
+    "stripePaymentId": "pi_1234567892",
+    "createdAt": "2024-02-20T15:45:00Z",
+    "shippedAt": null,
+    "completedAt": null
+  },
+  {
+    "Id": 4,
+    "customerId": 6,
+    "sellerId": 2,
+    "items": [
+      {
+        "productId": 2,
+        "productTitle": "Pottery Serving Bowl Set",
+        "variantDetails": {},
+        "quantity": 1,
+        "price": 95
+      }
+    ],
+    "subtotal": 95,
+    "platformFee": 9.5,
+    "total": 95,
+    "status": "new",
+    "shippingAddress": {
+      "street": "321 Elm Street",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80201",
+      "country": "USA"
+    },
+    "customizationFiles": [],
+    "specialInstructions": "Gift wrap please!",
+    "trackingNumber": "",
+    "stripePaymentId": "pi_1234567893",
+    "createdAt": "2024-02-22T10:00:00Z",
+    "shippedAt": null,
+    "completedAt": null
+  }
+]

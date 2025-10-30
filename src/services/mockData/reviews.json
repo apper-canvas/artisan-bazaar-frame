@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "productId": 1,
+    "customerId": 5,
+    "orderId": 1,
+    "rating": 5,
+    "reviewText": "Absolutely love this mug! The craftsmanship is incredible and it's the perfect size for my morning coffee. The glaze is beautiful and unique. Highly recommend!",
+    "mediaFiles": [
+      "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400"
+    ],
+    "status": "approved",
+    "createdAt": "2024-02-17T09:30:00Z",
+    "approvedAt": "2024-02-17T14:00:00Z"
+  },
+  {
+    "Id": 2,
+    "productId": 5,
+    "customerId": 6,
+    "orderId": 3,
+    "rating": 5,
+    "reviewText": "This wall hanging is stunning! It arrived beautifully packaged and looks even better in person. The quality is excellent and it transformed my living room. Worth every penny!",
+    "mediaFiles": [
+      "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=400"
+    ],
+    "status": "approved",
+    "createdAt": "2024-02-18T16:45:00Z",
+    "approvedAt": "2024-02-18T20:15:00Z"
+  },
+  {
+    "Id": 3,
+    "productId": 2,
+    "customerId": 5,
+    "orderId": 1,
+    "rating": 4,
+    "reviewText": "Beautiful bowls with great attention to detail. They're functional and look amazing on my table. Only wish they were slightly larger, but still very happy with the purchase.",
+    "mediaFiles": [],
+    "status": "pending",
+    "createdAt": "2024-02-21T11:20:00Z",
+    "approvedAt": null
+  }
+]

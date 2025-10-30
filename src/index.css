@@ -1,0 +1,61 @@
+@import 'react-toastify/dist/ReactToastify.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-secondary/20;
+  }
+  
+  body {
+    @apply font-sans text-gray-900 bg-white antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+/* Toast Customization */
+.Toastify__toast-container {
+  @apply z-[9999];
+}
+
+.Toastify__toast {
+  @apply rounded-lg shadow-lg font-sans text-sm p-4;
+}
+
+.Toastify__toast--success {
+  @apply bg-success text-white;
+}
+
+.Toastify__toast--error {
+  @apply bg-error text-white;
+}
+
+.Toastify__toast--warning {
+  @apply bg-warning text-white;
+}
+
+.Toastify__toast--info {
+  @apply bg-info text-white;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+}

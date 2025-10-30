@@ -1,0 +1,14 @@
+[
+  {
+    "Id": 1,
+    "userId": 5,
+    "items": [
+      {
+        "productId": 6,
+        "variantId": "color-natural-cream",
+        "quantity": 1
+      }
+    ],
+    "updatedAt": "2024-02-22T14:30:00Z"
+  }
+]

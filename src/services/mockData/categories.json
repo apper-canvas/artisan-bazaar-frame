@@ -1,0 +1,44 @@
+[
+  {
+    "Id": 1,
+    "name": "Home & Living",
+    "slug": "home-living",
+    "description": "Handcrafted items for your home",
+    "image": "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?w=400"
+  },
+  {
+    "Id": 2,
+    "name": "Furniture",
+    "slug": "furniture",
+    "description": "Custom furniture pieces",
+    "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400"
+  },
+  {
+    "Id": 3,
+    "name": "Home Decor",
+    "slug": "home-decor",
+    "description": "Decorative items and wall art",
+    "image": "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=400"
+  },
+  {
+    "Id": 4,
+    "name": "Digital Products",
+    "slug": "digital-products",
+    "description": "Downloadable courses and plans",
+    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400"
+  },
+  {
+    "Id": 5,
+    "name": "Art & Collectibles",
+    "slug": "art-collectibles",
+    "description": "Original artwork and prints",
+    "image": "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=400"
+  },
+  {
+    "Id": 6,
+    "name": "Jewelry",
+    "slug": "jewelry",
+    "description": "Handcrafted jewelry pieces",
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400"
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "Id": 1,
+    "shopId": 1,
+    "title": "Handmade Ceramic Coffee Mug",
+    "description": "Beautiful handcrafted ceramic mug perfect for your morning coffee or tea. Each mug is wheel-thrown and glazed with food-safe, lead-free glazes. Dishwasher and microwave safe. Holds approximately 12oz.",
+    "basePrice": 28,
+    "category": "Home & Living",
+    "productType": "physical",
+    "images": [
+      "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=800",
+      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800",
+      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 15,
+    "variants": [
+      {
+        "name": "Color",
+        "options": [
+          { "value": "Ocean Blue", "price": 28, "stock": 5 },
+          { "value": "Forest Green", "price": 28, "stock": 5 },
+          { "value": "Sunset Orange", "price": 30, "stock": 5 }
+        ]
+      }
+    ],
+    "createdAt": "2024-01-16T08:00:00Z"
+  },
+  {
+    "Id": 2,
+    "shopId": 1,
+    "title": "Pottery Serving Bowl Set",
+    "description": "Set of three nesting serving bowls, perfect for salads, sides, or mixing. Handcrafted with a rustic glaze finish. Food safe and durable for daily use.",
+    "basePrice": 95,
+    "category": "Home & Living",
+    "productType": "physical",
+    "images": [
+      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800",
+      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 8,
+    "variants": [],
+    "createdAt": "2024-01-18T10:30:00Z"
+  },
+  {
+    "Id": 3,
+    "shopId": 2,
+    "title": "Custom Walnut Cutting Board",
+    "description": "Beautiful edge-grain cutting board crafted from premium walnut. Finished with food-safe mineral oil. Perfect for meal prep or serving. Can be customized with engraved text or design.",
+    "basePrice": 75,
+    "category": "Home & Living",
+    "productType": "customizable",
+    "images": [
+      "https://images.unsplash.com/photo-1565183928294-7d22f344f65f?w=800",
+      "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=800",
+      "https://images.unsplash.com/photo-1551063878-1adcd1d96994?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 20,
+    "variants": [
+      {
+        "name": "Size",
+        "options": [
+          { "value": "Small (12x8)", "price": 75, "stock": 10 },
+          { "value": "Medium (16x10)", "price": 95, "stock": 7 },
+          { "value": "Large (20x14)", "price": 135, "stock": 3 }
+        ]
+      }
+    ],
+    "createdAt": "2024-01-22T11:00:00Z"
+  },
+  {
+    "Id": 4,
+    "shopId": 2,
+    "title": "Live Edge Coffee Table",
+    "description": "Stunning live edge coffee table made from a single slab of black walnut. Features natural edge with hairpin legs. Each table is one-of-a-kind. Made to order - please allow 4-6 weeks for creation.",
+    "basePrice": 850,
+    "category": "Furniture",
+    "productType": "physical",
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 3,
+    "variants": [
+      {
+        "name": "Finish",
+        "options": [
+          { "value": "Natural", "price": 850, "stock": 2 },
+          { "value": "Dark Stain", "price": 875, "stock": 1 }
+        ]
+      }
+    ],
+    "createdAt": "2024-01-25T14:30:00Z"
+  },
+  {
+    "Id": 5,
+    "shopId": 3,
+    "title": "Macramé Wall Hanging",
+    "description": "Boho-style macramé wall hanging handcrafted with natural cotton rope. Adds texture and warmth to any space. Includes wooden dowel for hanging. Perfect for living rooms, bedrooms, or nurseries.",
+    "basePrice": 68,
+    "category": "Home Decor",
+    "productType": "physical",
+    "images": [
+      "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=800",
+      "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 12,
+    "variants": [
+      {
+        "name": "Size",
+        "options": [
+          { "value": "Small (24in)", "price": 68, "stock": 6 },
+          { "value": "Large (36in)", "price": 98, "stock": 6 }
+        ]
+      }
+    ],
+    "createdAt": "2024-02-02T09:45:00Z"
+  },
+  {
+    "Id": 6,
+    "shopId": 3,
+    "title": "Hand-Woven Throw Blanket",
+    "description": "Luxuriously soft throw blanket hand-woven on a traditional loom. Made with 100% merino wool. Perfect for cozying up on the couch or adding a layer to your bed. Machine washable on delicate cycle.",
+    "basePrice": 145,
+    "category": "Home & Living",
+    "productType": "physical",
+    "images": [
+      "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800",
+      "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=800"
+    ],
+    "digitalFileUrl": null,
+    "inventory": 6,
+    "variants": [
+      {
+        "name": "Color",
+        "options": [
+          { "value": "Natural Cream", "price": 145, "stock": 3 },
+          { "value": "Sage Green", "price": 145, "stock": 2 },
+          { "value": "Dusty Rose", "price": 145, "stock": 1 }
+        ]
+      }
+    ],
+    "createdAt": "2024-02-05T16:20:00Z"
+  },
+  {
+    "Id": 7,
+    "shopId": 1,
+    "title": "Pottery Workshop Video Course",
+    "description": "Complete beginner's guide to pottery and ceramics. Learn wheel throwing, hand-building techniques, glazing, and firing. Includes 12 video lessons (4+ hours of content), PDF guides, and access to private student community.",
+    "basePrice": 89,
+    "category": "Digital Products",
+    "productType": "digital",
+    "images": [
+      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800",
+      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800"
+    ],
+    "digitalFileUrl": "https://example.com/courses/pottery-workshop-complete.zip",
+    "inventory": 999,
+    "variants": [],
+    "createdAt": "2024-02-08T12:00:00Z"
+  },
+  {
+    "Id": 8,
+    "shopId": 2,
+    "title": "Woodworking Plans - Dining Table",
+    "description": "Detailed woodworking plans for building a farmhouse-style dining table. Includes cut list, assembly instructions, finishing tips, and SketchUp 3D model. Perfect for intermediate woodworkers.",
+    "basePrice": 35,
+    "category": "Digital Products",
+    "productType": "digital",
+    "images": [
+      "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=800"
+    ],
+    "digitalFileUrl": "https://example.com/plans/dining-table-plans.pdf",
+    "inventory": 999,
+    "variants": [],
+    "createdAt": "2024-02-10T10:15:00Z"
+  }
+]
