@@ -26,12 +26,14 @@ const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedSeller, setSelectedSeller] = useState(null);
   const [availableSellers, setAvailableSellers] = useState([]);
+  const [variantMatrix, setVariantMatrix] = useState(null);
+  const [usedItems, setUsedItems] = useState([]);
 
 useEffect(() => {
     loadData();
   }, [id]);
 
-const loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError("");
@@ -51,6 +53,16 @@ const loadData = async () => {
         const defaultSeller = primeSeller || productData.sellers.sort((a, b) => a.price - b.price)[0];
         setSelectedSeller(defaultSeller);
       }
+
+      // Set up variant matrix if available
+      if (productData.variantMatrix) {
+        setVariantMatrix(productData.variantMatrix);
+      }
+
+      // Set up used options
+      if (productData.usedOptions) {
+        setUsedItems(productData.usedOptions);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -68,11 +80,42 @@ const handleAddToCart = () => {
     toast.info(`Switched to ${seller.shopName}`);
   };
 
-  const handleVariantChange = (variantName, value) => {
-    setSelectedVariants(prev => ({
-      ...prev,
+const handleVariantChange = (variantName, value) => {
+    const newVariants = {
+      ...selectedVariants,
       [variantName]: value
-    }));
+    };
+    setSelectedVariants(newVariants);
+
+    // Update main image based on variant selection
+    const variantImage = productService.getCurrentVariantImage(product, newVariants);
+    const imageIndex = product.images.indexOf(variantImage);
+    if (imageIndex !== -1) {
+      setSelectedImage(imageIndex);
+    }
+
+    toast.info(`Selected ${variantName}: ${value}`);
+  };
+
+  const handleMatrixSelect = (matrixItem) => {
+    const newVariants = {
+      Color: matrixItem.color,
+      Size: matrixItem.size
+    };
+    setSelectedVariants(newVariants);
+
+    // Update image based on color
+    const variantImage = productService.getCurrentVariantImage(product, newVariants);
+    const imageIndex = product.images.indexOf(variantImage);
+    if (imageIndex !== -1) {
+      setSelectedImage(imageIndex);
+    }
+
+    toast.success(`Selected ${matrixItem.color} - ${matrixItem.size}`);
+  };
+
+  const handleAddUsedToCart = (usedItem) => {
+    toast.success(`Added ${usedItem.condition} item to cart from ${usedItem.shopName}!`);
   };
 
   const getProductTypeBadge = (type) => {
@@ -88,9 +131,40 @@ if (loading) return <Loading message="Loading product..." />;
   if (error) return <Error message={error} onRetry={loadData} />;
   if (!product) return null;
 
-  const currentPrice = selectedSeller ? selectedSeller.price : product.basePrice;
+// Calculate current price based on selected variants
+  const variantPrice = productService.getVariantPrice(
+    product.basePrice,
+    product.variants,
+    selectedVariants
+  );
+  const currentPrice = selectedSeller ? selectedSeller.price : variantPrice;
   const currentStock = selectedSeller ? selectedSeller.stock : product.inventory;
   const badge = getProductTypeBadge(product.productType);
+
+  // Get selected variant stock if applicable
+  const getSelectedVariantStock = () => {
+    if (variantMatrix && selectedVariants.Color && selectedVariants.Size) {
+      const matrixItem = variantMatrix.find(
+        item => item.color === selectedVariants.Color && item.size === selectedVariants.Size
+      );
+      return matrixItem ? matrixItem.stock : currentStock;
+    }
+    
+    if (product.variants && product.variants.length > 0) {
+      for (const variant of product.variants) {
+        const selectedValue = selectedVariants[variant.name];
+        if (selectedValue) {
+          const option = variant.options.find(opt => opt.value === selectedValue);
+          if (option && option.stock !== undefined) {
+            return option.stock;
+          }
+        }
+      }
+    }
+    return currentStock;
+  };
+
+  const displayStock = getSelectedVariantStock();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-surface py-8 px-4">
@@ -106,10 +180,11 @@ if (loading) return <Loading message="Loading product..." />;
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
           <div>
             <div className="sticky top-24">
-              <motion.div
+<motion.div
                 key={selectedImage}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 className="aspect-square bg-surface rounded-2xl overflow-hidden mb-4 shadow-lg"
               >
                 <img
@@ -161,7 +236,19 @@ if (loading) return <Loading message="Loading product..." />;
                 )}
               </div>
 
-<PriceDisplay price={currentPrice} className="text-5xl mb-6" />
+<div className="mb-6">
+              <PriceDisplay price={currentPrice} className="text-5xl" />
+              {Object.keys(selectedVariants).length > 0 && variantPrice !== product.basePrice && (
+                <p className="text-sm text-gray-600 mt-2">
+                  Base price: <span className="line-through">${product.basePrice}</span>
+                  {' '}
+                  <span className="text-accent font-semibold">
+                    {variantPrice > product.basePrice ? '+' : ''}
+                    ${(variantPrice - product.basePrice).toFixed(2)}
+                  </span>
+                </p>
+              )}
+            </div>
               
               {selectedSeller && (
                 <div className="mb-6">
@@ -194,31 +281,150 @@ if (loading) return <Loading message="Loading product..." />;
               )}
             </div>
 
-            {product.variants.map((variant) => (
+{product.variants.map((variant) => (
               <div key={variant.name}>
                 <label className="block text-sm font-bold text-gray-700 mb-3">
                   {variant.name}
+                  {selectedVariants[variant.name] && (
+                    <span className="ml-2 text-sm font-normal text-gray-600">
+                      ({selectedVariants[variant.name]})
+                    </span>
+                  )}
                 </label>
-                <div className="flex flex-wrap gap-2">
-                  {variant.options.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => handleVariantChange(variant.name, option.value)}
-                      className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                        selectedVariants[variant.name] === option.value
-                          ? "border-accent bg-accent/10 text-accent font-semibold"
-                          : "border-secondary/30 hover:border-secondary"
-                      }`}
-                    >
-                      {option.value}
-                      {option.price !== product.basePrice && (
-                        <span className="ml-2 text-sm">+${option.price - product.basePrice}</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
+                
+                {variant.name === "Color" ? (
+                  <div className="flex flex-wrap gap-3">
+                    {variant.options.map((option) => {
+                      const isSelected = selectedVariants[variant.name] === option.value;
+                      const isOutOfStock = option.stock === 0;
+                      return (
+                        <button
+                          key={option.value}
+                          onClick={() => !isOutOfStock && handleVariantChange(variant.name, option.value)}
+                          disabled={isOutOfStock}
+                          className={`group relative ${isOutOfStock ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                          title={option.value}
+                        >
+                          <div
+                            className={`w-12 h-12 rounded-full border-3 transition-all ${
+                              isSelected
+                                ? "border-accent shadow-lg scale-110"
+                                : "border-gray-300 hover:border-secondary"
+                            } ${isOutOfStock ? 'opacity-40' : ''}`}
+                            style={{ backgroundColor: option.hex || '#cccccc' }}
+                          />
+                          {isSelected && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <ApperIcon name="Check" size={20} className="text-white drop-shadow-md" />
+                            </div>
+                          )}
+                          {isOutOfStock && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-10 h-0.5 bg-gray-400 rotate-45"></div>
+                            </div>
+                          )}
+                          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-xs bg-gray-900 text-white px-2 py-1 rounded">
+                            {option.value}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <select
+                    value={selectedVariants[variant.name] || ""}
+                    onChange={(e) => handleVariantChange(variant.name, e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-secondary/30 hover:border-secondary focus:border-accent focus:outline-none transition-colors bg-white"
+                  >
+                    <option value="">Select {variant.name}</option>
+                    {variant.options.map((option) => (
+                      <option
+                        key={option.value}
+                        value={option.value}
+                        disabled={option.stock === 0}
+                      >
+                        {option.value}
+                        {option.price !== product.basePrice && ` (+$${(option.price - product.basePrice).toFixed(2)})`}
+                        {option.stock !== undefined && ` - ${option.stock > 0 ? `${option.stock} in stock` : 'Out of stock'}`}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
             ))}
+
+            {variantMatrix && (
+              <div className="mt-6">
+                <h4 className="text-sm font-bold text-gray-700 mb-3">Available Combinations</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-gray-200">
+                        <th className="text-left py-2 px-3 text-sm font-semibold text-gray-700">Color</th>
+                        <th className="text-left py-2 px-3 text-sm font-semibold text-gray-700">Size</th>
+                        <th className="text-right py-2 px-3 text-sm font-semibold text-gray-700">Price</th>
+                        <th className="text-center py-2 px-3 text-sm font-semibold text-gray-700">Stock</th>
+                        <th className="text-center py-2 px-3 text-sm font-semibold text-gray-700"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {variantMatrix.map((item, index) => {
+                        const isSelected = 
+                          selectedVariants.Color === item.color &&
+                          selectedVariants.Size === item.size;
+                        const isOutOfStock = item.stock === 0;
+                        return (
+                          <tr
+                            key={index}
+                            className={`border-b border-gray-100 ${
+                              isSelected ? 'bg-accent/10' : 'hover:bg-gray-50'
+                            } ${isOutOfStock ? 'opacity-50' : ''}`}
+                          >
+                            <td className="py-3 px-3">
+                              <div className="flex items-center gap-2">
+                                <div
+                                  className="w-6 h-6 rounded-full border-2 border-gray-300"
+                                  style={{
+                                    backgroundColor: product.variants
+                                      .find(v => v.name === 'Color')
+                                      ?.options.find(o => o.value === item.color)?.hex || '#cccccc'
+                                  }}
+                                />
+                                <span className="text-sm text-gray-900">{item.color}</span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-3 text-sm text-gray-900">{item.size}</td>
+                            <td className="py-3 px-3 text-right">
+                              <PriceDisplay price={item.price} className="text-base font-semibold" />
+                            </td>
+                            <td className="py-3 px-3 text-center">
+                              <Badge variant={item.stock > 0 ? 'success' : 'secondary'} className="text-xs">
+                                {item.stock > 0 ? `${item.stock} left` : 'Out of stock'}
+                              </Badge>
+                            </td>
+                            <td className="py-3 px-3 text-center">
+                              {isSelected ? (
+                                <Badge variant="primary" className="text-xs">Selected</Badge>
+                              ) : (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleMatrixSelect(item)}
+                                  disabled={isOutOfStock}
+                                  className="text-xs"
+                                >
+                                  Select
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-3">
@@ -241,16 +447,30 @@ if (loading) return <Loading message="Loading product..." />;
               </div>
             </div>
 
-<div className="flex gap-4">
+<div className="mb-4">
+              {displayStock > 0 ? (
+                <p className="text-sm text-success font-semibold flex items-center gap-2">
+                  <ApperIcon name="Check" size={16} />
+                  In Stock - {displayStock} available
+                </p>
+              ) : (
+                <p className="text-sm text-error font-semibold flex items-center gap-2">
+                  <ApperIcon name="X" size={16} />
+                  Currently Out of Stock
+                </p>
+              )}
+            </div>
+
+            <div className="flex gap-4">
               <Button
                 variant="accent"
                 size="lg"
                 className="flex-1"
                 onClick={handleAddToCart}
-                disabled={currentStock === 0}
+                disabled={displayStock === 0}
               >
                 <ApperIcon name="ShoppingCart" size={20} className="mr-2" />
-                {currentStock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                {displayStock > 0 ? 'Add to Cart' : 'Out of Stock'}
               </Button>
               <Button variant="secondary" size="lg">
                 <ApperIcon name="Heart" size={20} />
@@ -281,6 +501,112 @@ if (loading) return <Loading message="Loading product..." />;
                       <ApperIcon name="ArrowRight" size={16} className="ml-2" />
                     </Button>
                   </div>
+                </div>
+              </Card>
+            )}
+
+{usedItems.length > 0 && (
+              <Card className="p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display font-bold text-xl text-gray-900">
+                    Buy New & Used
+                  </h3>
+                  <Badge variant="secondary" className="text-xs">
+                    Save up to {Math.round(((product.basePrice - Math.min(...usedItems.map(i => i.price))) / product.basePrice) * 100)}%
+                  </Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  Consider these quality alternatives at lower prices
+                </p>
+                <div className="grid gap-4">
+                  {usedItems.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border-2 border-gray-200 rounded-lg p-4 hover:border-accent transition-colors"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <Badge 
+                              variant={
+                                item.conditionRating >= 90 ? 'success' :
+                                item.conditionRating >= 80 ? 'primary' :
+                                item.conditionRating >= 70 ? 'warning' : 'secondary'
+                              }
+                              className="text-xs"
+                            >
+                              {item.condition}
+                            </Badge>
+                            <div className="flex items-center gap-1">
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <ApperIcon
+                                    key={i}
+                                    name="Star"
+                                    size={12}
+                                    className={`${
+                                      i < Math.floor(item.conditionRating / 20)
+                                        ? 'text-warning fill-warning'
+                                        : 'text-gray-300'
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                              <span className="text-xs text-gray-600">
+                                {item.conditionRating}% rating
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-700 mb-3">{item.description}</p>
+                          <div className="flex items-center gap-4 text-sm">
+                            <div>
+                              <span className="text-gray-600">Sold by:</span>
+                              <span className="font-semibold text-gray-900 ml-1">
+                                {item.shopName}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <ApperIcon name="Star" size={14} className="text-warning fill-warning" />
+                              <span className="font-semibold text-gray-900">
+                                {item.rating}%
+                              </span>
+                              <span className="text-gray-600">
+                                ({item.ratingCount.toLocaleString()})
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="mb-2">
+                            <PriceDisplay price={item.price} className="text-2xl font-bold" />
+                            <p className="text-xs text-gray-600 mt-1">
+                              Save <span className="text-success font-semibold">
+                                ${(product.basePrice - item.price).toFixed(2)}
+                              </span>
+                            </p>
+                          </div>
+                          {item.stock > 0 ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleAddUsedToCart(item)}
+                              className="w-full"
+                            >
+                              <ApperIcon name="ShoppingCart" size={14} className="mr-1" />
+                              Add to Cart
+                            </Button>
+                          ) : (
+                            <Badge variant="secondary" className="text-xs">
+                              Out of Stock
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </Card>
             )}
@@ -442,9 +768,9 @@ if (loading) return <Loading message="Loading product..." />;
                   <dd className="font-semibold text-gray-900">{product.category}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-600">Stock</dt>
+<dt className="text-gray-600">Stock</dt>
                   <dd className="font-semibold text-gray-900">
-                    {currentStock > 0 ? `${currentStock} available` : "Out of stock"}
+                    {displayStock > 0 ? `${displayStock} available` : "Out of stock"}
                   </dd>
                 </div>
                 <div>

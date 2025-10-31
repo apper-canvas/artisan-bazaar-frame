@@ -14,14 +14,44 @@
     ],
     "digitalFileUrl": null,
     "inventory": 15,
+"inventory": 15,
     "variants": [
       {
         "name": "Color",
         "options": [
-          { "value": "Ocean Blue", "price": 28, "stock": 5 },
-          { "value": "Forest Green", "price": 28, "stock": 5 },
-          { "value": "Sunset Orange", "price": 30, "stock": 5 }
+          { "value": "Ocean Blue", "price": 28, "stock": 5, "hex": "#4A90E2" },
+          { "value": "Forest Green", "price": 28, "stock": 5, "hex": "#5F9B65" },
+          { "value": "Sunset Orange", "price": 30, "stock": 5, "hex": "#E67E50" }
         ]
+      }
+],
+    "variantImages": {
+      "Ocean Blue": "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=800",
+      "Forest Green": "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800",
+      "Sunset Orange": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800"
+    },
+    "usedOptions": [
+      {
+        "condition": "Like New",
+        "conditionRating": 95,
+        "price": 22,
+        "shopId": 2,
+        "shopName": "Quality Resellers",
+        "rating": 94,
+        "ratingCount": 523,
+        "stock": 3,
+        "description": "Item is in excellent condition with minimal signs of use"
+      },
+      {
+        "condition": "Very Good",
+        "conditionRating": 85,
+        "price": 19,
+        "shopId": 3,
+        "shopName": "Budget Finds",
+        "rating": 91,
+        "ratingCount": 287,
+        "stock": 5,
+        "description": "Item shows light wear but remains fully functional"
       }
     ],
     "sellers": [
@@ -55,8 +85,7 @@
         "isPrime": true,
         "stock": 12
       }
-    ],
-    "createdAt": "2024-01-16T08:00:00Z"
+    ]
   },
   {
 "Id": 2,
@@ -112,6 +141,7 @@
     ],
     "digitalFileUrl": null,
     "inventory": 20,
+"inventory": 20,
     "variants": [
       {
         "name": "Size",
@@ -120,6 +150,24 @@
           { "value": "Medium (16x10)", "price": 95, "stock": 7 },
           { "value": "Large (20x14)", "price": 135, "stock": 3 }
         ]
+      }
+],
+    "variantImages": {
+      "Small (12x8)": "https://images.unsplash.com/photo-1565183928294-7d22f344f65f?w=800",
+      "Medium (16x10)": "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=800",
+      "Large (20x14)": "https://images.unsplash.com/photo-1551063878-1adcd1d96994?w=800"
+    },
+    "usedOptions": [
+      {
+        "condition": "Very Good",
+        "conditionRating": 88,
+        "price": 58,
+        "shopId": 1,
+        "shopName": "Artisan Marketplace",
+        "rating": 96,
+        "ratingCount": 445,
+        "stock": 2,
+        "description": "Gently used with minor surface scratches"
       }
     ],
     "sellers": [
@@ -153,8 +201,7 @@
         "isPrime": false,
         "stock": 4
       }
-    ],
-    "createdAt": "2024-01-22T11:00:00Z"
+    ]
   },
   {
 "Id": 4,
@@ -170,6 +217,7 @@
     ],
     "digitalFileUrl": null,
     "inventory": 3,
+"inventory": 3,
     "variants": [
       {
         "name": "Finish",
@@ -177,6 +225,23 @@
           { "value": "Natural", "price": 850, "stock": 2 },
           { "value": "Dark Stain", "price": 875, "stock": 1 }
         ]
+      }
+],
+    "variantImages": {
+      "Natural": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "Dark Stain": "https://images.unsplash.com/photo-1615875474908-c977ed7a936b?w=800"
+    },
+    "usedOptions": [
+      {
+        "condition": "Good",
+        "conditionRating": 75,
+        "price": 645,
+        "shopId": 3,
+        "shopName": "Budget Finds",
+        "rating": 89,
+        "ratingCount": 156,
+        "stock": 1,
+        "description": "Shows normal wear with some surface scratches and minor dings"
       }
     ],
     "sellers": [
@@ -200,8 +265,7 @@
         "isPrime": false,
         "stock": 1
       }
-    ],
-    "createdAt": "2024-01-25T14:30:00Z"
+    ]
   },
   {
 "Id": 5,
@@ -217,6 +281,7 @@
     ],
     "digitalFileUrl": null,
     "inventory": 12,
+"inventory": 12,
     "variants": [
       {
         "name": "Size",
@@ -225,7 +290,11 @@
           { "value": "Large (36in)", "price": 98, "stock": 6 }
         ]
       }
-    ],
+],
+    "variantImages": {
+      "Small (24in)": "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=800",
+      "Large (36in)": "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?w=800"
+    },
     "sellers": [
       {
         "shopId": 3,
@@ -257,8 +326,7 @@
         "isPrime": true,
         "stock": 3
       }
-    ],
-    "createdAt": "2024-02-02T09:45:00Z"
+    ]
   },
   {
 "Id": 6,
@@ -274,14 +342,59 @@
     ],
     "digitalFileUrl": null,
     "inventory": 6,
+"inventory": 6,
     "variants": [
       {
         "name": "Color",
         "options": [
-          { "value": "Natural Cream", "price": 145, "stock": 3 },
-          { "value": "Sage Green", "price": 145, "stock": 2 },
-          { "value": "Dusty Rose", "price": 145, "stock": 1 }
+          { "value": "Natural Cream", "price": 145, "stock": 3, "hex": "#F5F5DC" },
+          { "value": "Sage Green", "price": 145, "stock": 2, "hex": "#9CAF88" },
+          { "value": "Dusty Rose", "price": 145, "stock": 1, "hex": "#C9A0A0" }
         ]
+      },
+      {
+        "name": "Size",
+        "options": [
+          { "value": "Throw (50x60)", "price": 145, "stock": 4 },
+          { "value": "Twin (66x90)", "price": 195, "stock": 2 }
+        ]
+      }
+],
+    "variantImages": {
+      "Natural Cream": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800",
+      "Sage Green": "https://images.unsplash.com/photo-1586339277861-b0b895343ba5?w=800",
+      "Dusty Rose": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800"
+    },
+    "variantMatrix": [
+      { "color": "Natural Cream", "size": "Throw (50x60)", "price": 145, "stock": 2 },
+      { "color": "Natural Cream", "size": "Twin (66x90)", "price": 195, "stock": 1 },
+      { "color": "Sage Green", "size": "Throw (50x60)", "price": 145, "stock": 1 },
+      { "color": "Sage Green", "size": "Twin (66x90)", "price": 195, "stock": 1 },
+      { "color": "Dusty Rose", "size": "Throw (50x60)", "price": 145, "stock": 1 },
+      { "color": "Dusty Rose", "size": "Twin (66x90)", "price": 195, "stock": 0 }
+    ],
+    "usedOptions": [
+      {
+        "condition": "Like New",
+        "conditionRating": 93,
+        "price": 115,
+        "shopId": 2,
+        "shopName": "Quality Resellers",
+        "rating": 95,
+        "ratingCount": 234,
+        "stock": 2,
+        "description": "Barely used, like new condition with original packaging"
+      },
+      {
+        "condition": "Very Good",
+        "conditionRating": 82,
+        "price": 98,
+        "shopId": 1,
+        "shopName": "Artisan Marketplace",
+        "rating": 92,
+        "ratingCount": 178,
+        "stock": 3,
+        "description": "Light use with minimal wear"
       }
     ],
     "sellers": [
@@ -305,8 +418,7 @@
         "isPrime": false,
         "stock": 4
       }
-    ],
-    "createdAt": "2024-02-05T16:20:00Z"
+    ]
   },
   {
 "Id": 7,

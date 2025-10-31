@@ -27,6 +27,18 @@ async getById(id) {
       });
     }
     
+    // Enrich used options with shop data
+    if (product.usedOptions && product.usedOptions.length > 0) {
+      enrichedProduct.usedOptions = product.usedOptions.map(option => {
+        const shop = shops.find(s => s.Id === option.shopId);
+        return {
+          ...option,
+          shopName: shop?.name || option.shopName,
+          shopSlug: shop?.slug || ""
+        };
+      });
+    }
+    
     return enrichedProduct;
   },
 
@@ -35,7 +47,7 @@ async getByShopId(shopId) {
     return products.filter(p => p.shopId === parseInt(shopId));
   },
 
-  async getSellersByProductId(productId) {
+async getSellersByProductId(productId) {
     await delay(200);
     const product = products.find(p => p.Id === parseInt(productId));
     if (!product || !product.sellers) return [];
@@ -48,6 +60,42 @@ async getByShopId(shopId) {
         shopSlug: shop?.slug || ""
       };
     });
+  },
+
+  getVariantPrice(basePrice, variants, selectedVariants) {
+    if (!variants || variants.length === 0) return basePrice;
+    
+    let totalPrice = basePrice;
+    variants.forEach(variant => {
+      const selectedValue = selectedVariants[variant.name];
+      if (selectedValue) {
+        const option = variant.options.find(opt => opt.value === selectedValue);
+        if (option && option.price) {
+          totalPrice = option.price;
+        }
+      }
+    });
+    return totalPrice;
+  },
+
+  getCurrentVariantImage(product, selectedVariants) {
+    if (!product.variantImages) return product.images[0];
+    
+    // Try to find exact match for selected variants
+    for (const [variantValue, imageUrl] of Object.entries(product.variantImages)) {
+      for (const selectedValue of Object.values(selectedVariants)) {
+        if (selectedValue === variantValue) {
+          return imageUrl;
+        }
+      }
+    }
+    
+    return product.images[0];
+  },
+
+  getUsedOptions(product) {
+    if (!product || !product.usedOptions) return [];
+    return product.usedOptions;
   },
 
   async getByCategory(category) {
