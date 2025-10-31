@@ -163,10 +163,7 @@ const navigate = useNavigate();
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
-  );
-};
-    </header>
+</header>
   );
 };
 
