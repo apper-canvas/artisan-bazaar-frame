@@ -13,11 +13,10 @@ import RatingDisplay from "@/components/molecules/RatingDisplay";
 import productService from "@/services/api/productService";
 import shopService from "@/services/api/shopService";
 import reviewService from "@/services/api/reviewService";
-
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+const [product, setProduct] = useState(null);
   const [shop, setShop] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,21 +24,33 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [selectedSeller, setSelectedSeller] = useState(null);
+  const [availableSellers, setAvailableSellers] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
     loadData();
   }, [id]);
 
-  const loadData = async () => {
+const loadData = async () => {
     try {
       setLoading(true);
       setError("");
       const productData = await productService.getById(id);
       const shopData = await shopService.getById(productData.shopId);
       const reviewsData = await reviewService.getByProductId(id);
+      
       setProduct(productData);
       setShop(shopData);
       setReviews(reviewsData);
+      
+      // Set up sellers
+      if (productData.sellers && productData.sellers.length > 0) {
+        setAvailableSellers(productData.sellers);
+        // Select default seller (prime first, then lowest price)
+        const primeSeller = productData.sellers.find(s => s.isPrime);
+        const defaultSeller = primeSeller || productData.sellers.sort((a, b) => a.price - b.price)[0];
+        setSelectedSeller(defaultSeller);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -47,8 +58,14 @@ const ProductDetailPage = () => {
     }
   };
 
-  const handleAddToCart = () => {
-    toast.success("Added to cart!");
+const handleAddToCart = () => {
+    const sellerInfo = selectedSeller ? ` from ${selectedSeller.shopName}` : '';
+    toast.success(`Added to cart${sellerInfo}!`);
+  };
+
+  const handleSelectSeller = (seller) => {
+    setSelectedSeller(seller);
+    toast.info(`Switched to ${seller.shopName}`);
   };
 
   const handleVariantChange = (variantName, value) => {
@@ -67,10 +84,12 @@ const ProductDetailPage = () => {
     return badges[type] || badges.physical;
   };
 
-  if (loading) return <Loading message="Loading product..." />;
+if (loading) return <Loading message="Loading product..." />;
   if (error) return <Error message={error} onRetry={loadData} />;
   if (!product) return null;
 
+  const currentPrice = selectedSeller ? selectedSeller.price : product.basePrice;
+  const currentStock = selectedSeller ? selectedSeller.stock : product.inventory;
   const badge = getProductTypeBadge(product.productType);
 
   return (
@@ -133,11 +152,46 @@ const ProductDetailPage = () => {
                 {product.title}
               </h1>
 
-              <div className="flex items-center gap-4 mb-6">
-                <RatingDisplay rating={5} count={reviews.length} />
+<div className="flex items-center gap-4 mb-6">
+                {selectedSeller && (
+                  <RatingDisplay 
+                    rating={selectedSeller.rating / 20} 
+                    count={selectedSeller.ratingCount} 
+                  />
+                )}
               </div>
 
-              <PriceDisplay price={product.basePrice} className="text-5xl mb-6" />
+<PriceDisplay price={currentPrice} className="text-5xl mb-6" />
+              
+              {selectedSeller && (
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 text-sm mb-2">
+                    <span className="text-gray-600">Sold by</span>
+                    <span className="font-semibold text-gray-900">{selectedSeller.shopName}</span>
+                    {selectedSeller.isPrime && (
+                      <Badge variant="primary" className="ml-2">
+                        <ApperIcon name="Zap" size={12} className="mr-1" />
+                        Prime
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    and Fulfilled by Amazon
+                  </div>
+                  {selectedSeller.shippingCost === 0 ? (
+                    <div className="text-sm text-success font-semibold mt-1">
+                      FREE Shipping
+                    </div>
+                  ) : (
+                    <div className="text-sm text-gray-600 mt-1">
+                      + ${selectedSeller.shippingCost.toFixed(2)} shipping
+                    </div>
+                  )}
+                  <div className="text-sm text-gray-900 font-semibold mt-1">
+                    Arrives in {selectedSeller.deliveryDays} {selectedSeller.deliveryDays === 1 ? 'day' : 'days'}
+                  </div>
+                </div>
+              )}
             </div>
 
             {product.variants.map((variant) => (
@@ -187,22 +241,23 @@ const ProductDetailPage = () => {
               </div>
             </div>
 
-            <div className="flex gap-4">
+<div className="flex gap-4">
               <Button
                 variant="accent"
                 size="lg"
                 className="flex-1"
                 onClick={handleAddToCart}
+                disabled={currentStock === 0}
               >
                 <ApperIcon name="ShoppingCart" size={20} className="mr-2" />
-                Add to Cart
+                {currentStock > 0 ? 'Add to Cart' : 'Out of Stock'}
               </Button>
               <Button variant="secondary" size="lg">
                 <ApperIcon name="Heart" size={20} />
               </Button>
             </div>
 
-            {shop && (
+{shop && (
               <Card className="p-6">
                 <div className="flex items-start gap-4">
                   <img
@@ -229,10 +284,102 @@ const ProductDetailPage = () => {
                 </div>
               </Card>
             )}
+
+            {availableSellers.length > 1 && (
+              <Card className="p-6">
+                <h3 className="font-display font-bold text-xl text-gray-900 mb-4">
+                  Other Sellers on Amazon
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">Seller</th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">Price</th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">Rating</th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">Shipping</th>
+                        <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">Delivery</th>
+                        <th className="py-3 px-2"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {availableSellers.map((seller, index) => {
+                        const isSelected = selectedSeller?.shopId === seller.shopId;
+                        return (
+                          <tr 
+                            key={index} 
+                            className={`border-b border-gray-100 ${isSelected ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
+                          >
+                            <td className="py-4 px-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-900 text-sm">
+                                  {seller.shopName}
+                                </span>
+                                {seller.isPrime && (
+                                  <Badge variant="primary" className="text-xs">
+                                    <ApperIcon name="Zap" size={10} className="mr-1" />
+                                    Prime
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                Fulfilled by Amazon
+                              </div>
+                            </td>
+                            <td className="py-4 px-2">
+                              <PriceDisplay price={seller.price} className="text-lg font-bold" />
+                            </td>
+                            <td className="py-4 px-2">
+                              <div className="text-sm">
+                                <div className="font-semibold text-gray-900">
+                                  {seller.rating}% positive
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  ({seller.ratingCount.toLocaleString()} ratings)
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-4 px-2">
+                              <div className="text-sm">
+                                {seller.shippingCost === 0 ? (
+                                  <span className="text-success font-semibold">FREE</span>
+                                ) : (
+                                  <span className="text-gray-900">
+                                    ${seller.shippingCost.toFixed(2)}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="py-4 px-2">
+                              <div className="text-sm text-gray-900">
+                                {seller.deliveryDays} {seller.deliveryDays === 1 ? 'day' : 'days'}
+                              </div>
+                            </td>
+                            <td className="py-4 px-2 text-right">
+                              {isSelected ? (
+                                <Badge variant="success">Selected</Badge>
+                              ) : (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleSelectSeller(seller)}
+                                  disabled={seller.stock === 0}
+                                >
+                                  {seller.stock > 0 ? 'Select' : 'Out of Stock'}
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
           </div>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <Card className="p-8">
               <h2 className="font-display font-bold text-2xl text-gray-900 mb-4">
@@ -285,7 +432,7 @@ const ProductDetailPage = () => {
           </div>
 
           <div>
-            <Card className="p-6 sticky top-24">
+<Card className="p-6 sticky top-24">
               <h3 className="font-display font-bold text-lg text-gray-900 mb-4">
                 Product Details
               </h3>
@@ -297,7 +444,7 @@ const ProductDetailPage = () => {
                 <div>
                   <dt className="text-gray-600">Stock</dt>
                   <dd className="font-semibold text-gray-900">
-                    {product.inventory > 0 ? `${product.inventory} available` : "Out of stock"}
+                    {currentStock > 0 ? `${currentStock} available` : "Out of stock"}
                   </dd>
                 </div>
                 <div>
