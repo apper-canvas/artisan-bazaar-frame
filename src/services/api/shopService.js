@@ -29,7 +29,7 @@ const shopService = {
     return { ...shop };
   },
 
-  async create(shopData) {
+async create(shopData) {
     await delay(350);
     const maxId = Math.max(...shops.map(s => s.Id), 0);
     const newShop = {
@@ -40,16 +40,14 @@ const shopService = {
     shops.push(newShop);
     return { ...newShop };
   },
-
-  async update(id, shopData) {
+async update(id, shopData) {
     await delay(300);
     const index = shops.findIndex(s => s.Id === parseInt(id));
     if (index === -1) throw new Error("Shop not found");
     shops[index] = { ...shops[index], ...shopData };
     return { ...shops[index] };
   },
-
-  async delete(id) {
+async delete(id) {
     await delay(300);
     const index = shops.findIndex(s => s.Id === parseInt(id));
     if (index === -1) throw new Error("Shop not found");

@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import categoryService from "@/services/api/categoryService";
+import productService from "@/services/api/productService";
+import shopService from "@/services/api/shopService";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
+import ProductGrid from "@/components/organisms/ProductGrid";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
-import ProductGrid from "@/components/organisms/ProductGrid";
-import productService from "@/services/api/productService";
-import shopService from "@/services/api/shopService";
-import categoryService from "@/services/api/categoryService";
 
 const HomePage = () => {
-  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+const [products, setProducts] = useState([]);
   const [shops, setShops] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   useEffect(() => {
     loadData();
   }, []);
@@ -69,11 +69,11 @@ const HomePage = () => {
               Connect with talented artisans and find one-of-a-kind pieces that tell a story. Every item is made with love and care.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button variant="accent" size="lg" onClick={() => window.location.href = "/browse"}>
+<Button variant="accent" size="lg" onClick={() => navigate("/browse")}>
                 <ApperIcon name="Sparkles" size={20} className="mr-2" />
                 Start Shopping
               </Button>
-              <Button variant="secondary" size="lg" onClick={() => window.location.href = "/sell"}>
+              <Button variant="secondary" size="lg" onClick={() => navigate("/sell/register")}>
                 <ApperIcon name="Store" size={20} className="mr-2" />
                 Become a Seller
               </Button>
@@ -174,7 +174,7 @@ const HomePage = () => {
               <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
                 Join thousands of artisans who have found success on Artisan Bazaar. Set up your shop in minutes and reach customers worldwide.
               </p>
-              <Button variant="secondary" size="lg" onClick={() => window.location.href = "/sell"}>
+<Button variant="secondary" size="lg" onClick={() => navigate("/sell/register")}>
                 <ApperIcon name="Sparkles" size={20} className="mr-2" />
                 Get Started Free
               </Button>

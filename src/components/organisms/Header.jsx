@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
@@ -8,7 +8,7 @@ import SearchBar from "@/components/molecules/SearchBar";
 const Header = ({ cartItemCount = 0 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
   const handleSearch = (query) => {
     navigate(`/browse?search=${encodeURIComponent(query)}`);
@@ -70,9 +70,12 @@ const Header = ({ cartItemCount = 0 }) => {
                 </AnimatePresence>
               </div>
 
-              <Link to="/sell" className="text-gray-700 hover:text-primary transition-colors font-medium">
+<button 
+                onClick={() => navigate("/sell/register")}
+                className="text-gray-700 hover:text-primary transition-colors font-medium"
+              >
                 Sell
-              </Link>
+              </button>
             </nav>
           </div>
 
@@ -139,13 +142,15 @@ const Header = ({ cartItemCount = 0 }) => {
               >
                 Browse All
               </Link>
-              <Link
-                to="/sell"
-                className="block px-4 py-2 text-gray-700 hover:bg-surface rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
+<button
+                onClick={() => {
+                  navigate("/sell/register");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-surface rounded-lg transition-colors"
               >
                 Sell
-              </Link>
+              </button>
               <div className="pt-3 border-t border-secondary/20 space-y-2">
                 <Button 
                   variant="ghost" 

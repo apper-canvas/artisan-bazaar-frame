@@ -137,8 +137,7 @@ async update(id, productData) {
     };
     return { ...products[index] };
   },
-
-  async delete(id) {
+async delete(id) {
     await delay(300);
     const index = products.findIndex(p => p.Id === parseInt(id));
     if (index === -1) throw new Error("Product not found");

@@ -7,8 +7,9 @@ const HomePage = lazy(() => import("@/components/pages/HomePage"));
 const BrowsePage = lazy(() => import("@/components/pages/BrowsePage"));
 const ProductDetailPage = lazy(() => import("@/components/pages/ProductDetailPage"));
 const CartPage = lazy(() => import("@/components/pages/CartPage"));
+const BecomeSellerPage = lazy(() => import("@/components/pages/BecomeSellerPage"));
+const SellerDashboardPage = lazy(() => import("@/components/pages/SellerDashboardPage"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
-
 // Suspense fallback component
 const SuspenseFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -53,6 +54,22 @@ const mainRoutes = [
     element: (
       <Suspense fallback={<SuspenseFallback />}>
         <CartPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "sell/register",
+    element: (
+      <Suspense fallback={<SuspenseFallback />}>
+        <BecomeSellerPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "sell/dashboard",
+    element: (
+      <Suspense fallback={<SuspenseFallback />}>
+        <SellerDashboardPage />
       </Suspense>
     ),
   },
