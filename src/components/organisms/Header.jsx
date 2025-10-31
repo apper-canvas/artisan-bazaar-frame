@@ -100,12 +100,9 @@ const navigate = useNavigate();
               )}
             </Link>
 
-            <div className="hidden lg:flex items-center gap-3">
-              <Button variant="ghost" onClick={() => navigate("/login")}>
-                Sign In
-              </Button>
-              <Button variant="primary" onClick={() => navigate("/register")}>
-                Join Now
+<div className="hidden lg:flex items-center gap-3">
+              <Button variant="secondary" onClick={() => navigate("/login")}>
+                Login
               </Button>
             </div>
 
@@ -117,7 +114,6 @@ const navigate = useNavigate();
             </button>
           </div>
         </div>
-
         <div className="md:hidden pb-4">
           <SearchBar 
             onSearch={handleSearch}
@@ -151,7 +147,7 @@ const navigate = useNavigate();
               >
                 Sell
               </button>
-              <div className="pt-3 border-t border-secondary/20 space-y-2">
+<div className="pt-3 border-t border-secondary/20 space-y-2">
                 <Button 
                   variant="ghost" 
                   className="w-full justify-center"
@@ -160,23 +156,16 @@ const navigate = useNavigate();
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  Sign In
-                </Button>
-                <Button 
-                  variant="primary" 
-                  className="w-full justify-center"
-                  onClick={() => {
-                    navigate("/register");
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  Join Now
+                  Login
                 </Button>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+    </header>
+  );
+};
     </header>
   );
 };

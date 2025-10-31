@@ -113,7 +113,7 @@ const [products, setProducts] = useState([]);
           <h2 className="font-display font-bold text-4xl text-gray-900 mb-10 text-center">
             Shop by Category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((category, index) => (
               <motion.div
                 key={category.Id}
@@ -130,8 +130,8 @@ const [products, setProducts] = useState([]);
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="p-4 text-center">
-                      <h3 className="font-display font-semibold text-gray-900">
+                    <div className="p-4">
+                      <h3 className="font-display font-semibold text-gray-900 text-center">
                         {category.name}
                       </h3>
                     </div>
